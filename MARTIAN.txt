@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+using namespace std;
+int a[500][500],b[500][500],dp[500][500];
+int n,m;
+int fun(int i, int j)
+{
+	if(i<0||j<0||i>=n||j>=m) return 0;
+	if(dp[i][j]!=-1) return dp[i][j];
+	
+	return dp[i][j]=max(a[i][j]+fun(i-1,j),b[i][j]+fun(i,j-1));
+}
+int main() {
+	while(1){
+	memset(dp,-1,sizeof dp);
+	scanf("%d%d",&n,&m);
+	if(!n&&!m) return 0;
+	for(int i=0; i<n; i++) for(int j=0; j<m; j++) scanf("%d",&a[i][j]);
+	for(int i=0; i<n; i++) for(int j=0; j<m; j++) scanf("%d",&b[i][j]);
+	
+	for(int i=0; i<n; i++) for(int j=1; j<m; j++) a[i][j]+=a[i][j-1];
+	for(int i=1; i<n; i++) for(int j=0; j<m; j++) b[i][j]+=b[i-1][j];
+	
+	printf("%d\n",fun(n-1,m-1));
+}}
